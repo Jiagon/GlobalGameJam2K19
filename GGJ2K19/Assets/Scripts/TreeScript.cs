@@ -63,15 +63,29 @@ public class TreeScript : MonoBehaviour {
                                                                 (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x);*/
         this.GetComponent<CapsuleCollider>().radius = (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
         this.GetComponent<CapsuleCollider>().height = (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
+
+        this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x,
+                                                         (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f,
+                                                         this.gameObject.transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
-            Debug.Log("Trigger enter");
             isPlayerWithinRadius = true;
             playerScript.radiusObjects.Add(this.gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Player" && Input.GetKeyDown("space") && playerScript.hasResource)
+        {
+            ++waterLevel;
+            Debug.Log("Got H20 for this H2H0");
+            playerScript.hasResource = false;
+            playerScript.DisableItem();
         }
     }
 
@@ -84,7 +98,7 @@ public class TreeScript : MonoBehaviour {
         }
     }
 
-    private void OnMouseDown()
+    /*private void OnMouseDown()
     {
         Debug.Log("Hooray");
 
@@ -132,7 +146,6 @@ public class TreeScript : MonoBehaviour {
                 Debug.Log("Water level needed: " + waterStages[currentStage]);
                 Debug.Log("Nutrient level needed: " + nutrientStages[currentStage]);
             }
-        }*/
-    }
-    
+        }
+    }*/
 }

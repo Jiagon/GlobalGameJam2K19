@@ -12,6 +12,10 @@ public class Player : MonoBehaviour {
     public bool hasResource;
     public Vector3 direction;
 
+    public Material water;
+    public Material colorToPass;
+    public GameObject followingSphere;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
@@ -55,10 +59,17 @@ public class Player : MonoBehaviour {
     {
         if(other.tag == "Water")
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown("space"))
             {
                 hasResource = true;
+                colorToPass = water;
+                followingSphere.SetActive(true);
             }
         }
+    }
+
+    public void DisableItem()
+    {
+        followingSphere.SetActive(false);
     }
 }
