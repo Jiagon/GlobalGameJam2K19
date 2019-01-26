@@ -195,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 445998970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 87.063, y: 87.063, z: 87.063}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -271,15 +271,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4146663479255764, guid: e9f2b6dc2ff463d4e86d419cc2ae540e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.57760525
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4146663479255764, guid: e9f2b6dc2ff463d4e86d419cc2ae540e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.78
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4146663479255764, guid: e9f2b6dc2ff463d4e86d419cc2ae540e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.2035294
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4146663479255764, guid: e9f2b6dc2ff463d4e86d419cc2ae540e, type: 2}
       propertyPath: m_LocalRotation.x
@@ -380,6 +380,7 @@ GameObject:
   - component: {fileID: 2006008242}
   - component: {fileID: 2006008241}
   - component: {fileID: 2006008240}
+  - component: {fileID: 2006008243}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -441,12 +442,25 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2006008239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.64, z: -10}
+  m_LocalPosition: {x: 0, y: 5.215, z: -7.448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2006008243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2006008239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da1dd9ec2aa29c64396585107eceb3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1524408215}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &2102807417
 Prefab:
   m_ObjectHideFlags: 0
