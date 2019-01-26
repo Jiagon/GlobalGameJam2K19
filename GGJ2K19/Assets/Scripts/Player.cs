@@ -10,11 +10,13 @@ public class Player : MonoBehaviour {
     public bool isWithinRadius;
     public List<GameObject> radiusObjects;
     public bool hasResource;
+    public Vector3 direction;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
         position = rb.transform.position;
+        direction = rb.transform.forward;
         prevPosition = position;
         isWithinRadius = true;
         radiusObjects = new List<GameObject>();
@@ -33,17 +35,18 @@ public class Player : MonoBehaviour {
             isWithinRadius = true;
         }*/
 
-        int direction = 1;
+        /*int direction = 1;
 
-        if (radiusObjects.Count <= 0/*isWithinRadius*/)
+        if (radiusObjects.Count <= 0/*isWithinRadius)
         {
             direction *= -1;
-        }
+        }*/
 
         position = rb.transform.position;
         prevPosition = position;
-        position.x += Input.GetAxis("Horizontal") * direction;
-        position.z += Input.GetAxis("Vertical") * direction;
+        position.x += (Input.GetAxis("Horizontal")/10)/* * direction*/;
+        position.z += (Input.GetAxis("Vertical")/10)/* * direction*/;
+        direction = prevPosition - position;
 
         rb.transform.position = position;
     }
