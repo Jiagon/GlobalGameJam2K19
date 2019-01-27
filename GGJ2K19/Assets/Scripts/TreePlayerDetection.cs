@@ -18,9 +18,9 @@ public class TreePlayerDetection : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "Player" && !isPlayerWithinRadius)
         {
             isPlayerWithinRadius = true;
             playerScript.radiusObjects.Add(gameObject);

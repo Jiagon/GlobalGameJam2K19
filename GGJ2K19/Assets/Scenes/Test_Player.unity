@@ -707,6 +707,23 @@ Prefab:
       propertyPath: seedText
       value: 
       objectReference: {fileID: 1665865412}
+    - target: {fileID: 114170604609585746, guid: e9f2b6dc2ff463d4e86d419cc2ae540e,
+        type: 2}
+      propertyPath: treePrefab
+      value: 
+      objectReference: {fileID: 1398839718019820, guid: b5accbe41d3a9d74b8937c94689bcf35,
+        type: 2}
+    - target: {fileID: 54279527726377302, guid: e9f2b6dc2ff463d4e86d419cc2ae540e,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 114170604609585746, guid: e9f2b6dc2ff463d4e86d419cc2ae540e,
+        type: 2}
+      propertyPath: parentPrefab
+      value: 
+      objectReference: {fileID: 1873626812181194, guid: b5accbe41d3a9d74b8937c94689bcf35,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9f2b6dc2ff463d4e86d419cc2ae540e, type: 2}
   m_IsPrefabAsset: 0
