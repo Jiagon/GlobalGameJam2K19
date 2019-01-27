@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -12,6 +13,12 @@ public class Player : MonoBehaviour {
     public bool hasResource;
     public Vector3 direction;
 
+    public int magicCount;
+    public int seedCount;
+
+    public Text magicText;
+    public Text seedText;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
@@ -21,6 +28,8 @@ public class Player : MonoBehaviour {
         isWithinRadius = true;
         radiusObjects = new List<GameObject>();
         hasResource = false;
+        magicText.text = "Magic: " + magicCount;
+        seedText.text = "Seeds: " + seedCount;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +58,15 @@ public class Player : MonoBehaviour {
         direction = prevPosition - position;
 
         rb.transform.position = position;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Seed")
+        {
+            seedCount++;
+            seedText.text = "Seeds: " + seedCount;
+        }
     }
 
     void OnTriggerStay(Collider other)
