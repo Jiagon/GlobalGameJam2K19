@@ -28,12 +28,15 @@ public class TreeScript : MonoBehaviour {
     bool givenFirstSeeds;                                   // Whether a tree at stage 2 has dropped seeds yet
     bool givenSecondSeeds;                                  // Whether a tree at stage 3 has dropped seeds yet
 
+    public GameManager gameManager;
+
 
 
 	// Use this for initialization
 	void Start () {
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerScript = player.GetComponent<Player>();
         currentStage = 0;
         health = 10;
@@ -76,6 +79,7 @@ public class TreeScript : MonoBehaviour {
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
             if (currentStage == 3)
             {
+                gameManager.treeCount++;
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);

@@ -37,7 +37,7 @@ public class TreePlayerDetection : MonoBehaviour {
             {
                 Vector3 treeToPlayer = transform.position - player.transform.position; //playerScript.rb.transform.position;
                 treeToPlayer.Normalize();
-                playerScript.rb.transform.position = (transform.position - (treeToPlayer * GetComponent<SphereCollider>().radius))/* - (-treeToPlayer * player.GetComponent<CapsuleCollider>().radius)*/;
+                playerScript.rb.transform.position = (transform.position - (treeToPlayer * (GetComponent<SphereCollider>().radius)))/* - (-treeToPlayer * player.GetComponent<CapsuleCollider>().radius)*/;
             }
         }
     }
