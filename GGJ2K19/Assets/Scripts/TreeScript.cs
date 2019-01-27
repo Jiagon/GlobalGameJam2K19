@@ -59,9 +59,12 @@ public class TreeScript : MonoBehaviour {
         currentStage = 0;
         health = 10;
         UpdateSpriteRenderer();
-        nutrientsText = GameObject.Find("NutrientsText").GetComponent<Text>();
-        waterText = GameObject.Find("WaterText").GetComponent<Text>();
-        healthText = GameObject.Find("HealthText").GetComponent<Text>();
+        nutrientsText = gameObject.transform.parent.GetComponentInChildren<Canvas>().gameObject.transform.GetChild(3).GetComponent<Text>();
+        waterText = gameObject.transform.parent.GetComponentInChildren<Canvas>().gameObject.transform.GetChild(4).GetComponent<Text>();
+        healthText = gameObject.transform.parent.GetComponentInChildren<Canvas>().gameObject.transform.GetChild(5).GetComponent<Text>();
+
+        nutrientLevel = 0;
+        waterLevel = 0;
 
         nutrientsText.text = "Nutrients: " + nutrientLevel;
         waterText.text = "Water: " + waterLevel;
@@ -122,25 +125,29 @@ public class TreeScript : MonoBehaviour {
             Vector3 canvasPosition = new Vector3();
 			switch(currentStage) {
 				case 1:
-                    canvasPosition = canvas.transform.position;
+                    canvasPosition = canvas.gameObject.GetComponent<RectTransform>().position;
                     canvasPosition.y += 1f;
-					canvas.transform.position = canvasPosition;
+                    canvas.gameObject.GetComponent<RectTransform>().position = canvasPosition;
 					break;
 				case 2:
 					magicLevel = 1;
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-					canvasPosition = canvas.transform.position;
-					canvasPosition.y += 1f;
-					canvas.transform.position = canvasPosition;
+					canvasPosition = canvas.gameObject.GetComponent<RectTransform>().position;
+					canvasPosition.y += 2f;
+                    canvasPosition.z -= .2f;
+                    canvas.gameObject.GetComponent<RectTransform>().position = canvasPosition;
 					break;
 				case 3:
 					magicLevel = 3;
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-					canvasPosition = canvas.transform.position;
-					canvasPosition.y += 1f;
+					canvasPosition = canvas.gameObject.GetComponent<RectTransform>().position;
+                    canvasPosition.x += 2f;
+                    canvasPosition.y += 2f;
+                    canvasPosition.z -= .2f;
 					canvas.transform.position = canvasPosition;
+                    canvas.gameObject.GetComponent<RectTransform>().position = canvasPosition;
 					break;
 				default:
 					break;

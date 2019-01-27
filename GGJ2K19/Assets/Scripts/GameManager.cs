@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(winLose.IsActive());
+        //Debug.Log(winLose.IsActive());
         if (trees.Count <= 0)
         {
             backgroundWinLose.gameObject.SetActive(true);
