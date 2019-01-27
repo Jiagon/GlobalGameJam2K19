@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerItemFollow : MonoBehaviour {
 
-    Material color;
+    Sprite sprite;
     public GameObject player;
     Player playerScript;
 
@@ -25,7 +25,12 @@ public class PlayerItemFollow : MonoBehaviour {
     
     private void OnEnable()
     {
-        color = playerScript.colorToPass;
-        this.gameObject.GetComponent<Renderer>().material = color;
+        //ResetSphere();
+    }
+
+    public void ResetSphere()
+    {
+        sprite = playerScript.spriteToPass;
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 }
