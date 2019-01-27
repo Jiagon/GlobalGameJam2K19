@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public int goalTreeCount;
     public int treeGoal;
+    public Text winLose;
+    public Button restart;
 
     List<TreeScript> trees = new List<TreeScript>();
     List<TreeScript> protectedTrees = new List<TreeScript>();
@@ -16,6 +21,11 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        restart.onClick.AddListener(RestartGame);
+
+        trees = new List<TreeScript>();
+
         GameObject[] allTreesInScene = GameObject.FindGameObjectsWithTag("Tree");
         foreach(GameObject t in allTreesInScene)
         {
@@ -29,14 +39,29 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(winLose.IsActive());
         if (trees.Count <= 0)
         {
-            // Lose State
+            //winLose.gameObject.SetActive(true);
+            winLose.text = "You Lose";
+            restart.gameObject.SetActive(true);
+            restart.gameObject.GetComponent<Button>().enabled = true;
         }
 
-        else if(trees.Count >= treeGoal)
+        else if(goalTreeCount >= treeGoal)
         {
-            // Win State
+            Debug.Log("Win");
+            //winLose.gameObject.SetActive(true);
+            winLose.text = "You Win";
+            restart.gameObject.SetActive(true);
+            restart.gameObject.GetComponent<Button>().enabled = true;
+        }
+
+        else
+        {
+            winLose.text = "";
+            restart.enabled = false;
+            restart.gameObject.GetComponent<Button>().enabled = false;
         }
 
         if (disastersEnabled)
@@ -59,6 +84,11 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
+    private void RestartGame()
+    {
+        SceneManager.LoadScene("GameScene");
+	}
+	
     public void StartDisasters(TreeScript tree, bool protect)
     {
         if(tree != null)

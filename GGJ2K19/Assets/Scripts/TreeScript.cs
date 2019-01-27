@@ -24,10 +24,12 @@ public class TreeScript : MonoBehaviour {
     int nutrientLevel;                                      // How many nutrients the tree currently has
     float nutrientTimer;                                    // Keeps track of nutrient gain time
     float magicTimer;                                       // Keeps track of player magic gain time
+    int magicLevel;
     public int health;                                      // How much health a tree has - deteroiates due to environment disasters
 
     bool givenFirstSeeds;                                   // Whether a tree at stage 2 has dropped seeds yet
     bool givenSecondSeeds;                                  // Whether a tree at stage 3 has dropped seeds yet
+
 
     public GameObject firePrefab;
     public bool isOnFire;
@@ -42,13 +44,24 @@ public class TreeScript : MonoBehaviour {
 	void Start () {
         if (gm == null)
             gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
+    public Canvas canvas;
+    public Text nutrientsText;
+    public Text waterText;
+    public Text healthText;
+    public Text magicOutputText;
+
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<Player>();
         currentStage = 0;
         health = 10;
         UpdateSpriteRenderer();
-	}
+
+        nutrientsText.text = "Nutrients: " + nutrientLevel;
+        waterText.text = "Water: " + waterLevel;
+        healthText.text = "Health: " + health;
+        magicOutputText.text = "Magic Output: " + magicLevel;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -82,13 +95,9 @@ public class TreeScript : MonoBehaviour {
 
         if (magicTimer >= 5.0f)
         {
-            if (currentStage == 2)
+            if (currentStage >= 2)
             {
-                ++playerScript.MagicCount;
-            }
-            else if (currentStage == 3)
-            {
-                playerScript.MagicCount += 3;
+                playerScript.MagicCount += magicLevel;
             }
             magicTimer = 0;
         }
@@ -104,16 +113,39 @@ public class TreeScript : MonoBehaviour {
             ++currentStage;
             UpdateSpriteRenderer();
             health += 5;
-            if (currentStage == 2)
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-            if (currentStage == 3)
-            {
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-            }
+			switch(currentStage) {
+				case 1:
+					Vector3 canvasPosition = canvas.transform.position;
+					canvasPosition.y += 1f;
+					canvas.transform.position = canvasPosition;
+					break;
+				case 2:
+					magicLevel = 1;
+					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+					Vector3 canvasPosition = canvas.transform.position;
+					canvasPosition.y += 1f;
+					canvas.transform.position = canvasPosition;
+					break;
+				case 3:
+					magicLevel = 3;
+					gm.goalTreeCount++;
+					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+					Vector3 canvasPosition = canvas.transform.position;
+					canvasPosition.y += 1f;
+					canvas.transform.position = canvasPosition;
+					break;
+				default:
+					break;
+			}
         }
-	}
+
+        nutrientsText.text = "Nutrients: " + nutrientLevel;
+        waterText.text = "Water: " + waterLevel;
+        healthText.text = "Health: " + health;
+        magicOutputText.text = "Magic Output: " + magicLevel;
+    }
 
     void UpdateSpriteRenderer()
     {
