@@ -86,6 +86,7 @@ public class Player : MonoBehaviour {
         {
             seedCount++;
             seedText.text = "Seeds: " + seedCount;
+            Destroy(other.gameObject);
         }
     }
 
