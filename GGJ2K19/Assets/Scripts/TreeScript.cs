@@ -14,7 +14,7 @@ public class TreeScript : MonoBehaviour {
     public List<Sprite> treeStages = new List<Sprite>();    // Prefab objects the trees will display as
     public List<int> waterStages = new List<int>();         // How much water is necessary for a stage to display
     public List<int> nutrientStages = new List<int>();      // How much nutriets are necessary for a stage to display
-    int currentStage;                                       // Which stages of growth a tree is currently on
+    public int currentStage;                                // Which stages of growth a tree is currently on
 
 
     public int surroundingNutrients;                        // How many nutrients per second a tree gets based on surrounding soil
@@ -23,13 +23,18 @@ public class TreeScript : MonoBehaviour {
     int nutrientLevel;                                      // How many nutrients the tree currently has
     float nutrientTimer;                                    // Keeps track of nutrient gain time
     float magicTimer;                                       // Keeps track of player magic gain time
-    int health;                                             // How much health a tree has - deteroiates due to environment disasters
+    public int health;                                      // How much health a tree has - deteroiates due to environment disasters
 
     bool givenFirstSeeds;                                   // Whether a tree at stage 2 has dropped seeds yet
     bool givenSecondSeeds;                                  // Whether a tree at stage 3 has dropped seeds yet
 
+
     public GameManager gameManager;
 
+    public bool isOnFire;
+    public bool isWinded;
+    float fireTimer;
+    float windTimer;
 
 
 	// Use this for initialization
@@ -51,6 +56,24 @@ public class TreeScript : MonoBehaviour {
         }
         nutrientTimer += Time.deltaTime;
         magicTimer += Time.deltaTime;
+        if (isOnFire)
+        {
+            fireTimer += Time.deltaTime;
+            if(fireTimer >= 3.0f)
+            {
+                health -= 3;
+                fireTimer = 0;
+            }
+        }
+        if (isWinded)
+        {
+            windTimer += Time.deltaTime;
+            if (windTimer >= 5.0f)
+            {
+                health -= 1;
+                windTimer = 0;
+            }
+        }
 
         if (magicTimer >= 5.0f)
         {
@@ -76,13 +99,12 @@ public class TreeScript : MonoBehaviour {
             ++currentStage;
             UpdateSpriteRenderer();
             if (currentStage == 2)
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
             if (currentStage == 3)
             {
-                gameManager.treeCount++;
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-5, 5), 0, transform.position.z + Random.Range(-5, 5)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
             }
         }
 	}
