@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TreeScript : MonoBehaviour {
 
+    public GameManager gm;
     public GameObject player;
     Player playerScript;
     bool isPlayerWithinRadius;
@@ -28,6 +29,7 @@ public class TreeScript : MonoBehaviour {
     bool givenFirstSeeds;                                   // Whether a tree at stage 2 has dropped seeds yet
     bool givenSecondSeeds;                                  // Whether a tree at stage 3 has dropped seeds yet
 
+    public GameObject firePrefab;
     public bool isOnFire;
     public bool isWinded;
     float fireTimer;
@@ -36,6 +38,8 @@ public class TreeScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (gm == null)
+            gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<Player>();
@@ -48,6 +52,9 @@ public class TreeScript : MonoBehaviour {
 	void Update () {
         if(health <= 0)
         {
+            if (firePrefab != null)
+                Destroy(firePrefab);
+            gm.TreeDeath(this);
             Destroy(this.gameObject);
         }
         nutrientTimer += Time.deltaTime;
@@ -94,13 +101,14 @@ public class TreeScript : MonoBehaviour {
         {
             ++currentStage;
             UpdateSpriteRenderer();
+            health += 5;
             if (currentStage == 2)
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
             if (currentStage == 3)
             {
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), .5f, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
             }
         }
 	}
@@ -113,12 +121,14 @@ public class TreeScript : MonoBehaviour {
         /*this.GetComponent<CapsuleCollider>().size = new Vector3((float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x,
                                                                 (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y,
                                                                 (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x);*/
-        this.GetComponent<CapsuleCollider>().radius = (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
-        this.GetComponent<CapsuleCollider>().height = (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
+        Sprite sprite = this.GetComponent<SpriteRenderer>().sprite;
+        this.GetComponent<CapsuleCollider>().radius = (float)sprite.bounds.size.x / 2;
+        this.GetComponent<CapsuleCollider>().height = (float)sprite.bounds.size.y;
 
         this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x,
-                                                         (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f,
+                                                         ((float)sprite.bounds.size.y / 2f),// - ((float)sprite.bounds.size.y / 16f),
                                                          this.gameObject.transform.position.z);
+        gm.StartDisasters(null);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -132,11 +142,18 @@ public class TreeScript : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Player" && Input.GetKeyDown("space") && playerScript.hasResource)
+        if(other.tag == "Player" && Input.GetKeyDown("space") && playerScript.hasResource && player.GetComponentInChildren<PlayerItemFollow>().sprite == playerScript.water)
         {
             ++waterLevel;
             playerScript.hasResource = false;
             playerScript.DisableItem();
+            
+            if (isOnFire)
+            {
+                isOnFire = false;
+                if (firePrefab != null)
+                    Destroy(firePrefab);
+            }
         }
     }
 
@@ -151,16 +168,8 @@ public class TreeScript : MonoBehaviour {
 
     /*private void OnMouseDown()
     {
-        Debug.Log("Hooray");
-
-
-        Debug.DrawRay(Input.mousePosition, this.gameObject.transform.position);
         ++waterLevel;
         //++nutrientLevel;
-        Debug.Log("Current water level: " + waterLevel);
-        Debug.Log("Current nutrient level: " + nutrientLevel);
-        Debug.Log("Water level needed: " + waterStages[currentStage]);
-        Debug.Log("Nutrient level needed: " + nutrientStages[currentStage]);
         if (playerScript.hasResource)   // Change later to check for what kind of resource
         {
             playerScript.hasResource = false;
@@ -181,21 +190,10 @@ public class TreeScript : MonoBehaviour {
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit))
         {
-            Debug.DrawRay(Input.mousePosition, this.gameObject.transform.position);
-            ++waterLevel;
-            //++nutrientLevel;
-            Debug.Log("Current water level: " + waterLevel);
-            Debug.Log("Current nutrient level: " + nutrientLevel);
-            Debug.Log("Water level needed: " + waterStages[currentStage]);
-            Debug.Log("Nutrient level needed: " + nutrientStages[currentStage]);
             if (playerScript.hasResource)   // Change later to check for what kind of resource
             {
                 playerScript.hasResource = false;
                 ++waterLevel;
-                Debug.Log("Current water level: " + waterLevel);
-                Debug.Log("Current nutrient level: " + nutrientLevel);
-                Debug.Log("Water level needed: " + waterStages[currentStage]);
-                Debug.Log("Nutrient level needed: " + nutrientStages[currentStage]);
             }
         }
     }*/

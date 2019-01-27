@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54799669520777954}
   m_Layer: 0
   m_Name: Tree
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262a8d8c84ec25488fe04c42779b6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 0}
   player: {fileID: 0}
   seed: {fileID: 1565200195449348, guid: 28b5a9bba6621184784faea7d15808ff, type: 2}
   treeStages:
@@ -141,6 +142,7 @@ MonoBehaviour:
   currentStage: 0
   surroundingNutrients: 1
   health: 0
+  firePrefab: {fileID: 0}
   isOnFire: 0
   isWinded: 0
 --- !u!135 &135516813081247680

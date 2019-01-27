@@ -6,22 +6,24 @@ public class GameManager : MonoBehaviour {
 
     public int treeGoal;
 
-    List<TreeScript> trees;
+    List<TreeScript> trees = new List<TreeScript>();
+    public GameObject firePrefab;
+    public GameObject windPrefab;
 
     bool disastersEnabled;
     float fireTimer, fireTimerMax, windTimer, windTimerMax;
 
 	// Use this for initialization
 	void Start () {
-        trees = new List<TreeScript>();
-
         GameObject[] allTreesInScene = GameObject.FindGameObjectsWithTag("Tree");
         foreach(GameObject t in allTreesInScene)
         {
             trees.Add(t.GetComponent<TreeScript>());
         }
-        ResetTimers(fireTimer, fireTimerMax, 10f, 30f);
-        ResetTimers(windTimer, windTimerMax, 5f, 20f);
+        fireTimer = 0;
+        windTimer = 0;
+        fireTimerMax = Random.Range(30f, 50f);
+        windTimerMax = Random.Range(5f, 10f);
     }
 
     // Update is called once per frame
@@ -44,20 +46,23 @@ public class GameManager : MonoBehaviour {
             if(fireTimer >= fireTimerMax)
             {
                 StartFire();
-                ResetTimers(fireTimer, fireTimerMax, 10f, 30f);
+                fireTimer = 0;
+                fireTimerMax = Random.Range(30f, 50f);
             }
             if(windTimer >= windTimerMax)
             {
                 StartWind();
-                ResetTimers(windTimer, windTimerMax, 5f, 10f);
+                windTimer = 0;
+                windTimerMax = Random.Range(5f, 10f);
             }
         }
 	}
 
     public void StartDisasters(TreeScript tree)
     {
-        trees.Add(tree);
-        if (!disastersEnabled)
+        if(tree != null)
+            trees.Add(tree);
+        if (!disastersEnabled && trees.Count > 0)
         {
             int numElderTrees = 0;
             foreach (TreeScript t in trees)
@@ -65,21 +70,18 @@ public class GameManager : MonoBehaviour {
                 if (t.currentStage >= 2)
                     ++numElderTrees;
             }
-            if (trees.Count > 9 && numElderTrees > 4)
+            //if (trees.Count > 9 && numElderTrees > 4)
+            if (numElderTrees > 0)
             {
                 disastersEnabled = true;
-                ResetTimers(fireTimer, fireTimerMax, 10f, 30f);
-                ResetTimers(windTimer, windTimerMax, 5f, 20f);
-                Debug.Log("Disasters now enabled!");
+                fireTimer = 0;
+                windTimer = 0;
+                fireTimerMax = Random.Range(10f, 20f); // TODO: change back to 30f, 50f
+                windTimerMax = Random.Range(5f, 10f);
             }
         }
     }
-
-    public void ResetTimers(float t1, float t2, float r1, float r2)
-    {
-        t1 = 0;
-        t2 = Random.Range(r1, r2);
-    }
+    
 
     public void StartFire()
     {
@@ -87,13 +89,25 @@ public class GameManager : MonoBehaviour {
             return;
         bool validTree = false;
         int whichTree = 0;
-        while (!validTree)
+        int numTimesTriedToStart = 0;
+        while (!validTree && numTimesTriedToStart < 5)
         {
             whichTree = Random.Range(0, trees.Count);
-            if (trees[whichTree].currentStage >= 2)
+            if (trees[whichTree].currentStage >= 2 && !trees[whichTree].isOnFire)
+            {
                 validTree = true;
+            }
+            ++numTimesTriedToStart;
         }
-        trees[whichTree].isOnFire = true;
+        if (validTree)
+        {
+            trees[whichTree].isOnFire = true;
+            trees[whichTree].firePrefab = Instantiate(firePrefab, trees[whichTree].transform.position, Quaternion.identity);
+            trees[whichTree].firePrefab.transform.localScale = new Vector3((float)trees[whichTree].GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2,
+                                                                           (float)trees[whichTree].GetComponent<SpriteRenderer>().sprite.bounds.size.y,
+                                                                           1);
+        }
+
     }
     public void StartWind()
     {
@@ -101,12 +115,19 @@ public class GameManager : MonoBehaviour {
             return;
         bool validTree = false;
         int whichTree = 0;
-        while (!validTree)
+        int numTimesTriedToStart = 0;
+        while (!validTree && numTimesTriedToStart < 5)
         {
             whichTree = Random.Range(0, trees.Count);
             if (trees[whichTree].currentStage <= 1)
                 validTree = true;
+            ++numTimesTriedToStart;
         }
-        trees[whichTree].isWinded = true;
+        //trees[whichTree].isWinded = true;
+    }
+
+    public void TreeDeath(TreeScript tree)
+    {
+        trees.Remove(tree);
     }
 }

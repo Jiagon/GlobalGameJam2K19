@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54490842707309372}
   m_Layer: 0
   m_Name: Tree
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262a8d8c84ec25488fe04c42779b6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 0}
   player: {fileID: 0}
   seed: {fileID: 0}
   treeStages:
@@ -78,7 +79,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 81a030644c49b58448595a65f47ddba9, type: 3}
   waterStages: 01000000020000000400000008000000
   nutrientStages: 01000000020000000400000008000000
+  currentStage: 0
   surroundingNutrients: 1
+  health: 0
+  firePrefab: {fileID: 0}
+  isOnFire: 0
+  isWinded: 0
 --- !u!136 &136084766888042508
 CapsuleCollider:
   m_ObjectHideFlags: 1

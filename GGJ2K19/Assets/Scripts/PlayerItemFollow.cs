@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerItemFollow : MonoBehaviour {
 
-    Sprite sprite;
+    public Sprite sprite;
     public GameObject player;
     Player playerScript;
 
