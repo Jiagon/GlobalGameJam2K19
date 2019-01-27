@@ -134,11 +134,15 @@ MonoBehaviour:
   treeStages:
   - {fileID: 21300000, guid: 25cd46e014c341a4c8625b227ae58f25, type: 3}
   - {fileID: 21300000, guid: f7bed5161adef9c429830bdbf2878df3, type: 3}
-  - {fileID: 21300000, guid: 521f42bcb938f414595203bf39f276e4, type: 3}
-  - {fileID: 21300000, guid: fc3b2d608cd4d12419327be37bcbe1ea, type: 3}
+  - {fileID: 21300000, guid: 53f9b861c81c97443b5c885c0fedb1aa, type: 3}
+  - {fileID: 21300000, guid: 81a030644c49b58448595a65f47ddba9, type: 3}
   waterStages: 01000000020000000400000008000000
   nutrientStages: 01000000020000000400000008000000
+  currentStage: 0
   surroundingNutrients: 1
+  health: 0
+  isOnFire: 0
+  isWinded: 0
 --- !u!135 &135516813081247680
 SphereCollider:
   m_ObjectHideFlags: 1

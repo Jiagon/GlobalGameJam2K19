@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
+    public GameManager gm;
+
     public Rigidbody rb;
     private Vector3 position;
     public Vector3 prevPosition;
@@ -13,9 +15,11 @@ public class Player : MonoBehaviour {
     public bool hasResource;
     public Vector3 direction;
 
-    public Material water;
-    public Material colorToPass;
+    public Sprite water;
+    public Sprite pebble;
+    public Sprite spriteToPass;
     public GameObject followingSphere;
+    public bool tooCloseToWater;
 
     int magicCount;
     public int MagicCount {
@@ -98,12 +102,36 @@ public class Player : MonoBehaviour {
     {
         if(other.tag == "Water")
         {
+            if (other.GetType() == typeof(SphereCollider))
+                tooCloseToWater = true;
+            else
+            {
+                if (Input.GetKeyDown("space"))
+                {
+                    hasResource = true;
+                    spriteToPass = water;
+                    followingSphere.SetActive(true);
+                    followingSphere.GetComponent<PlayerItemFollow>().ResetSphere();
+                }
+            }
+        }
+        if(other.tag == "Pebble")
+        {
             if (Input.GetKeyDown("space"))
             {
                 hasResource = true;
-                colorToPass = water;
+                spriteToPass = pebble;
                 followingSphere.SetActive(true);
+                followingSphere.GetComponent<PlayerItemFollow>().ResetSphere();
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Water" && other.GetType() == typeof(SphereCollider))
+        {
+            tooCloseToWater = false;
         }
     }
 
@@ -116,11 +144,12 @@ public class Player : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(seedCount > 0)
+            if(seedCount > 0 && !tooCloseToWater)
             {
                 GameObject treeParent = GameObject.Instantiate(parentPrefab, transform.position, Quaternion.identity);
                 treeParent.GetComponent<TreePlayerDetection>().player = gameObject;
 
+                gm.StartDisasters(treeParent.GetComponentInChildren<TreeScript>());
                 //GameObject tree = GameObject.Instantiate(treePrefab, transform.position, Quaternion.identity);
                 //tree.GetComponent<TreeScript>().player = gameObject;
 
