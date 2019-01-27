@@ -26,6 +26,8 @@ public class TreeScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<Player>();
         currentStage = 0;
         health = 10;

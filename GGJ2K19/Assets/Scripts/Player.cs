@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
     public Material colorToPass;
     public GameObject followingSphere;
 
+    public GameObject parentPrefab;
     public GameObject treePrefab;
 	
     public int magicCount;
@@ -37,9 +38,10 @@ public class Player : MonoBehaviour {
         magicText.text = "Magic: " + magicCount;
         seedText.text = "Seeds: " + seedCount;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         /*if(radiusObjects.Count == 0)
         {
             isWithinRadius = false;
@@ -59,9 +61,9 @@ public class Player : MonoBehaviour {
 
         position = rb.transform.position;
         prevPosition = position;
-        position.x += (Input.GetAxis("Horizontal")/10)/* * direction*/;
+        position.x += (Input.GetAxis("Horizontal") / 10)/* * direction*/;
         position.y = 0.78f;
-        position.z += (Input.GetAxis("Vertical")/10)/* * direction*/;
+        position.z += (Input.GetAxis("Vertical") / 10)/* * direction*/;
         direction = prevPosition - position;
 
         if (direction.x > 0)
@@ -69,6 +71,8 @@ public class Player : MonoBehaviour {
         else
             GetComponent<SpriteRenderer>().flipX = true;
         rb.transform.position = position;
+
+        PlantSeed();
     }
 
     void OnTriggerEnter(Collider other)
@@ -100,9 +104,19 @@ public class Player : MonoBehaviour {
 
     public void PlantSeed()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            //GameObject.Instantiate(treePrefab, )
+            if(seedCount > 0)
+            {
+                GameObject treeParent = GameObject.Instantiate(parentPrefab, transform.position, Quaternion.identity);
+                treeParent.GetComponent<TreePlayerDetection>().player = gameObject;
+
+                GameObject tree = GameObject.Instantiate(treePrefab, transform.position, Quaternion.identity);
+                tree.GetComponent<TreeScript>().player = gameObject;
+
+                seedCount--;
+                seedText.text = "Seeds: " + seedCount;
+            }
         }
     }
 }
