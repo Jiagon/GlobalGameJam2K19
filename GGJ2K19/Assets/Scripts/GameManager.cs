@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public int treeGoal;
     public Text winLose;
     public Button restart;
+    public RawImage backgroundWinLose;
 
     public List<TreeScript> trees;
 
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour {
         Debug.Log(winLose.IsActive());
         if (trees.Count <= 0)
         {
-            //winLose.gameObject.SetActive(true);
+            backgroundWinLose.gameObject.SetActive(true);
             winLose.text = "You Lose";
             restart.gameObject.SetActive(true);
             restart.gameObject.GetComponent<Button>().enabled = true;
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour {
         else if(goalTreeCount >= treeGoal)
         {
             Debug.Log("Win");
-            //winLose.gameObject.SetActive(true);
+            backgroundWinLose.gameObject.SetActive(true);
             winLose.text = "You Win";
             restart.gameObject.SetActive(true);
             restart.gameObject.GetComponent<Button>().enabled = true;
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour {
 
         else
         {
+            backgroundWinLose.gameObject.SetActive(false);
             winLose.text = "";
             restart.enabled = false;
             restart.gameObject.GetComponent<Button>().enabled = false;
