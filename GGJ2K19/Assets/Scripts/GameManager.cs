@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour {
 
     private void RestartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("StartScene");
 	}
 	
     public void StartDisasters(TreeScript tree, bool protect)
