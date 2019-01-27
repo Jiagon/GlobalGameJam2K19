@@ -13,6 +13,10 @@ public class Player : MonoBehaviour {
     public bool hasResource;
     public Vector3 direction;
 
+    public Material water;
+    public Material colorToPass;
+    public GameObject followingSphere;
+	
     public int magicCount;
     public int seedCount;
 
@@ -54,9 +58,14 @@ public class Player : MonoBehaviour {
         position = rb.transform.position;
         prevPosition = position;
         position.x += (Input.GetAxis("Horizontal")/10)/* * direction*/;
+        position.y = 0.78f;
         position.z += (Input.GetAxis("Vertical")/10)/* * direction*/;
         direction = prevPosition - position;
 
+        if (direction.x > 0)
+            GetComponent<SpriteRenderer>().flipX = false;
+        else
+            GetComponent<SpriteRenderer>().flipX = true;
         rb.transform.position = position;
     }
 
@@ -73,10 +82,17 @@ public class Player : MonoBehaviour {
     {
         if(other.tag == "Water")
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown("space"))
             {
                 hasResource = true;
+                colorToPass = water;
+                followingSphere.SetActive(true);
             }
         }
+    }
+
+    public void DisableItem()
+    {
+        followingSphere.SetActive(false);
     }
 }

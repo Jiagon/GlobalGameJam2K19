@@ -21,11 +21,12 @@ public class TreeWater : MonoBehaviour {
     {
         if(other.tag == "Player")
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown("space"))
             {
                 if (playerScript.hasResource)
                 {
                     playerScript.hasResource = false;
+
                     // Add code to upgrade tree
                 }
             }
