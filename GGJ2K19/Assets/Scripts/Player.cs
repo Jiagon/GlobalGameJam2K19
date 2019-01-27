@@ -49,9 +49,14 @@ public class Player : MonoBehaviour {
         position = rb.transform.position;
         prevPosition = position;
         position.x += (Input.GetAxis("Horizontal")/10)/* * direction*/;
+        position.y = 0.78f;
         position.z += (Input.GetAxis("Vertical")/10)/* * direction*/;
         direction = prevPosition - position;
 
+        if (direction.x > 0)
+            GetComponent<SpriteRenderer>().flipX = false;
+        else
+            GetComponent<SpriteRenderer>().flipX = true;
         rb.transform.position = position;
     }
 
