@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 222876573538549422}
   - component: {fileID: 114229602205229428}
   m_Layer: 0
-  m_Name: Health
+  m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 222816078112906596}
   - component: {fileID: 114308037066144252}
   m_Layer: 0
-  m_Name: Nutrients
+  m_Name: NutrientsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 222506793677532056}
   - component: {fileID: 114256339845637380}
   m_Layer: 0
-  m_Name: Water
+  m_Name: WaterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -192,11 +192,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1873626812181194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.55, y: 0.45, z: 0}
+  m_LocalPosition: {x: -260.90997, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4826392482559268}
   - {fileID: 224339400859767938}
+  - {fileID: 4826392482559268}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -211,7 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4305955290134552}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &54114269953749616
 Rigidbody:
@@ -506,14 +506,14 @@ MonoBehaviour:
   currentStage: 0
   surroundingNutrients: 1
   health: 0
-  gameManager: {fileID: 0}
+  firePrefab: {fileID: 0}
   isOnFire: 0
   isWinded: 0
-  canvas: {fileID: 223166929876013026}
-  nutrientsText: {fileID: 114308037066144252}
-  waterText: {fileID: 114256339845637380}
-  healthText: {fileID: 114229602205229428}
-  magicOutputText: {fileID: 114162507930946810}
+  ruins: {fileID: 0}
+  canvas: {fileID: 0}
+  nutrientsText: {fileID: 0}
+  waterText: {fileID: 0}
+  healthText: {fileID: 0}
 --- !u!114 &114871095154303874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -711,7 +711,7 @@ RectTransform:
   - {fileID: 224738003863024198}
   - {fileID: 224934819858316648}
   m_Father: {fileID: 4305955290134552}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

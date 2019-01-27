@@ -8,6 +8,7 @@ TagManager:
   - Seed
   - Tree
   - Ruins
+  - MainCanvas
   layers:
   - Default
   - TransparentFX

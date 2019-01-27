@@ -39,28 +39,34 @@ public class TreeScript : MonoBehaviour {
 
     public GameObject ruins;
 
-
-	// Use this for initialization
-	void Start () {
-        if (gm == null)
-            gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
     public Canvas canvas;
     public Text nutrientsText;
     public Text waterText;
     public Text healthText;
-    public Text magicOutputText;
+    //public Text magicOutputText;
+
+    // Use this for initialization
+    void Start()
+    {
+        if (gm == null)
+            gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
+
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         playerScript = player.GetComponent<Player>();
         currentStage = 0;
         health = 10;
         UpdateSpriteRenderer();
+        nutrientsText = GameObject.Find("NutrientsText").GetComponent<Text>();
+        waterText = GameObject.Find("WaterText").GetComponent<Text>();
+        healthText = GameObject.Find("HealthText").GetComponent<Text>();
 
         nutrientsText.text = "Nutrients: " + nutrientLevel;
         waterText.text = "Water: " + waterLevel;
         healthText.text = "Health: " + health;
-        magicOutputText.text = "Magic Output: " + magicLevel;
+        //magicOutputText.text = "Magic Output: " + magicLevel;
     }
 	
 	// Update is called once per frame
@@ -113,26 +119,26 @@ public class TreeScript : MonoBehaviour {
             ++currentStage;
             UpdateSpriteRenderer();
             health += 5;
+            Vector3 canvasPosition = new Vector3();
 			switch(currentStage) {
 				case 1:
-					Vector3 canvasPosition = canvas.transform.position;
-					canvasPosition.y += 1f;
+                    canvasPosition = canvas.transform.position;
+                    canvasPosition.y += 1f;
 					canvas.transform.position = canvasPosition;
 					break;
 				case 2:
 					magicLevel = 1;
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-					Vector3 canvasPosition = canvas.transform.position;
+					canvasPosition = canvas.transform.position;
 					canvasPosition.y += 1f;
 					canvas.transform.position = canvasPosition;
 					break;
 				case 3:
 					magicLevel = 3;
-					gm.goalTreeCount++;
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
 					Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
-					Vector3 canvasPosition = canvas.transform.position;
+					canvasPosition = canvas.transform.position;
 					canvasPosition.y += 1f;
 					canvas.transform.position = canvasPosition;
 					break;
@@ -144,7 +150,7 @@ public class TreeScript : MonoBehaviour {
         nutrientsText.text = "Nutrients: " + nutrientLevel;
         waterText.text = "Water: " + waterLevel;
         healthText.text = "Health: " + health;
-        magicOutputText.text = "Magic Output: " + magicLevel;
+        //magicOutputText.text = "Magic Output: " + magicLevel;
     }
 
     void UpdateSpriteRenderer()
@@ -160,8 +166,11 @@ public class TreeScript : MonoBehaviour {
         this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x,
                                                          ((float)sprite.bounds.size.y / 2f),// - ((float)sprite.bounds.size.y / 16f),
                                                          this.gameObject.transform.position.z);
-        if(currentStage >= 3 && ruins != null)
+        if (currentStage >= 3 && ruins != null)
+        {
             ruins.GetComponent<RuinsScript>().PlantedTree();
+            gm.goalTreeCount++;
+        }
         gm.StartDisasters(null, false);
     }
 
