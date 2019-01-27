@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
     public int treeGoal;
 
     List<TreeScript> trees = new List<TreeScript>();
+    List<TreeScript> protectedTrees = new List<TreeScript>();
     public GameObject firePrefab;
     public GameObject windPrefab;
 
@@ -58,10 +59,14 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    public void StartDisasters(TreeScript tree)
+    public void StartDisasters(TreeScript tree, bool protect)
     {
         if(tree != null)
             trees.Add(tree);
+        if (protect)
+        {
+            protectedTrees.Add(tree);
+        }
         if (!disastersEnabled && trees.Count > 0)
         {
             int numElderTrees = 0;
@@ -93,7 +98,7 @@ public class GameManager : MonoBehaviour {
         while (!validTree && numTimesTriedToStart < 5)
         {
             whichTree = Random.Range(0, trees.Count);
-            if (trees[whichTree].currentStage >= 2 && !trees[whichTree].isOnFire)
+            if (trees[whichTree].currentStage >= 2 && !trees[whichTree].isOnFire && !protectedTrees.Contains(trees[whichTree]))
             {
                 validTree = true;
             }
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour {
         while (!validTree && numTimesTriedToStart < 5)
         {
             whichTree = Random.Range(0, trees.Count);
-            if (trees[whichTree].currentStage <= 1)
+            if (trees[whichTree].currentStage <= 1 && !protectedTrees.Contains(trees[whichTree]))
                 validTree = true;
             ++numTimesTriedToStart;
         }

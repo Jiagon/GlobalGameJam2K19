@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
 
     public Text magicText;
     public Text seedText;
+    public GameObject ruins;
 
 	// Use this for initialization
 	void Start () {
@@ -96,6 +97,10 @@ public class Player : MonoBehaviour {
             seedText.text = "Seeds: " + seedCount;
             Destroy(other.gameObject);
         }
+        if(other.tag == "Ruins")
+        {
+            ruins = other.gameObject;
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -133,6 +138,10 @@ public class Player : MonoBehaviour {
         {
             tooCloseToWater = false;
         }
+        if (other.tag == "Ruins")
+        {
+            ruins = null;
+        }
     }
 
     public void DisableItem()
@@ -149,12 +158,18 @@ public class Player : MonoBehaviour {
                 GameObject treeParent = GameObject.Instantiate(parentPrefab, transform.position, Quaternion.identity);
                 treeParent.GetComponent<TreePlayerDetection>().player = gameObject;
 
-                gm.StartDisasters(treeParent.GetComponentInChildren<TreeScript>());
                 //GameObject tree = GameObject.Instantiate(treePrefab, transform.position, Quaternion.identity);
                 //tree.GetComponent<TreeScript>().player = gameObject;
 
                 seedCount--;
                 seedText.text = "Seeds: " + seedCount;
+                if (ruins != null && !ruins.GetComponent<RuinsScript>().reclaimed)
+                {
+                    treeParent.GetComponentInChildren<TreeScript>().ruins = ruins;
+                    gm.StartDisasters(treeParent.GetComponentInChildren<TreeScript>(), true);
+                }
+                else
+                    gm.StartDisasters(treeParent.GetComponentInChildren<TreeScript>(), false);
             }
         }
     }

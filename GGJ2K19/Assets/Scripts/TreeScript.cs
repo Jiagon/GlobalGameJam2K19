@@ -35,6 +35,8 @@ public class TreeScript : MonoBehaviour {
     float fireTimer;
     float windTimer;
 
+    public GameObject ruins;
+
 
 	// Use this for initialization
 	void Start () {
@@ -118,9 +120,7 @@ public class TreeScript : MonoBehaviour {
         waterLevel = 0;
         nutrientLevel = 0;
         this.GetComponent<SpriteRenderer>().sprite = treeStages[currentStage];
-        /*this.GetComponent<CapsuleCollider>().size = new Vector3((float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x,
-                                                                (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.y,
-                                                                (float)this.GetComponent<SpriteRenderer>().sprite.bounds.size.x);*/
+
         Sprite sprite = this.GetComponent<SpriteRenderer>().sprite;
         this.GetComponent<CapsuleCollider>().radius = (float)sprite.bounds.size.x / 2;
         this.GetComponent<CapsuleCollider>().height = (float)sprite.bounds.size.y;
@@ -128,7 +128,9 @@ public class TreeScript : MonoBehaviour {
         this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x,
                                                          ((float)sprite.bounds.size.y / 2f),// - ((float)sprite.bounds.size.y / 16f),
                                                          this.gameObject.transform.position.z);
-        gm.StartDisasters(null);
+        if(currentStage >= 3 && ruins != null)
+            ruins.GetComponent<RuinsScript>().PlantedTree();
+        gm.StartDisasters(null, false);
     }
 
     private void OnTriggerEnter(Collider other)
