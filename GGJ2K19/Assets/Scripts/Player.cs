@@ -27,6 +27,8 @@ public class Player : MonoBehaviour {
             magicText.text = "Magic: " + magicCount;
         }
     }
+    public GameObject treePrefab;
+	
     public int seedCount;
 
     public Text magicText;
@@ -78,7 +80,7 @@ public class Player : MonoBehaviour {
         rb.transform.position = position;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Seed")
         {
@@ -103,5 +105,13 @@ public class Player : MonoBehaviour {
     public void DisableItem()
     {
         followingSphere.SetActive(false);
+    }
+
+    public void PlantSeed()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            //GameObject.Instantiate(treePrefab, )
+        }
     }
 }
