@@ -19,7 +19,8 @@ public class TreeScript : MonoBehaviour {
 
     int waterLevel;                                         // How much water the tree currently has
     int nutrientLevel;                                      // How many nutrients the tree currently has
-    float timer;                                            // Keeps track of nutrient gain time
+    float nutrientTimer;                                    // Keeps track of nutrient gain time
+    float magicTimer;                                       // Keeps track of player magic gain time
     int health;                                             // How much health a tree has - deteroiates due to environment disasters
 
 
@@ -38,12 +39,26 @@ public class TreeScript : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        nutrientTimer += Time.deltaTime;
+        magicTimer += Time.deltaTime;
 
-        timer += Time.deltaTime;
-        if (timer >= 3.0f && surroundingNutrients > 0)
+        if (magicTimer >= 5.0f)
+        {
+            if (currentStage == 2)
+            {
+                ++playerScript.MagicCount;
+            }
+            else if (currentStage == 3)
+            {
+                playerScript.MagicCount += 3;
+            }
+            magicTimer = 0;
+        }
+
+        if (nutrientTimer >= 3.0f && surroundingNutrients > 0)
         {
             nutrientLevel += surroundingNutrients;
-            timer = 0;
+            nutrientTimer = 0;
         }
         
         if(waterLevel >= waterStages[currentStage] && nutrientLevel >= nutrientStages[currentStage] && currentStage < 3)
@@ -83,7 +98,6 @@ public class TreeScript : MonoBehaviour {
         if(other.tag == "Player" && Input.GetKeyDown("space") && playerScript.hasResource)
         {
             ++waterLevel;
-            Debug.Log("Got H20 for this H2H0");
             playerScript.hasResource = false;
             playerScript.DisableItem();
         }
