@@ -23,6 +23,7 @@ public class TreeScript : MonoBehaviour {
     int nutrientLevel;                                      // How many nutrients the tree currently has
     float nutrientTimer;                                    // Keeps track of nutrient gain time
     float magicTimer;                                       // Keeps track of player magic gain time
+    int magicLevel;
     public int health;                                      // How much health a tree has - deteroiates due to environment disasters
 
     bool givenFirstSeeds;                                   // Whether a tree at stage 2 has dropped seeds yet
@@ -36,9 +37,15 @@ public class TreeScript : MonoBehaviour {
     float fireTimer;
     float windTimer;
 
+    public Canvas canvas;
+    public Text nutrientsText;
+    public Text waterText;
+    public Text healthText;
+    public Text magicOutputText;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
@@ -46,7 +53,12 @@ public class TreeScript : MonoBehaviour {
         currentStage = 0;
         health = 10;
         UpdateSpriteRenderer();
-	}
+
+        nutrientsText.text = "Nutrients: " + nutrientLevel;
+        waterText.text = "Water: " + waterLevel;
+        healthText.text = "Health: " + health;
+        magicOutputText.text = "Magic Output: " + magicLevel;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -77,13 +89,9 @@ public class TreeScript : MonoBehaviour {
 
         if (magicTimer >= 5.0f)
         {
-            if (currentStage == 2)
+            if (currentStage >= 2)
             {
-                ++playerScript.MagicCount;
-            }
-            else if (currentStage == 3)
-            {
-                playerScript.MagicCount += 3;
+                playerScript.MagicCount += magicLevel;
             }
             magicTimer = 0;
         }
@@ -98,16 +106,38 @@ public class TreeScript : MonoBehaviour {
         {
             ++currentStage;
             UpdateSpriteRenderer();
+            if(currentStage == 1)
+            {
+                Vector3 canvasPosition = canvas.transform.position;
+                canvasPosition.y += 1f;
+                canvas.transform.position = canvasPosition;
+            }
             if (currentStage == 2)
+            {
+                magicLevel = 1;
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Vector3 canvasPosition = canvas.transform.position;
+                canvasPosition.y += 1f;
+                canvas.transform.position = canvasPosition;
+            }
             if (currentStage == 3)
             {
+                magicLevel = 3;
+                gameManager.goalTreeCount++;
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
                 Instantiate(seed, new Vector3(transform.position.x + Random.Range(-3, 3), 0, transform.position.z + Random.Range(-3, 3)), Quaternion.identity);
+                Vector3 canvasPosition = canvas.transform.position;
+                canvasPosition.y += 1f;
+                canvas.transform.position = canvasPosition;
             }
         }
-	}
+
+        nutrientsText.text = "Nutrients: " + nutrientLevel;
+        waterText.text = "Water: " + waterLevel;
+        healthText.text = "Health: " + health;
+        magicOutputText.text = "Magic Output: " + magicLevel;
+    }
 
     void UpdateSpriteRenderer()
     {

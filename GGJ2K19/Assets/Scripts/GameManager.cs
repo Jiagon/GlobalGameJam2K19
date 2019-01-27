@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public int goalTreeCount;
     public int treeGoal;
     public Text winLose;
     public Button restart;
 
-    List<TreeScript> trees;
+    public List<TreeScript> trees;
 
     bool disastersEnabled;
     float fireTimer, fireTimerMax, windTimer, windTimerMax;
@@ -32,24 +33,29 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(winLose.IsActive());
         if (trees.Count <= 0)
         {
+            //winLose.gameObject.SetActive(true);
             winLose.text = "You Lose";
-            winLose.enabled = true;
-            restart.enabled = true;
+            restart.gameObject.SetActive(true);
+            restart.gameObject.GetComponent<Button>().enabled = true;
         }
 
-        else if(trees.Count >= treeGoal)
+        else if(goalTreeCount >= treeGoal)
         {
+            Debug.Log("Win");
+            //winLose.gameObject.SetActive(true);
             winLose.text = "You Win";
-            winLose.enabled = true;
-            restart.enabled = true;
+            restart.gameObject.SetActive(true);
+            restart.gameObject.GetComponent<Button>().enabled = true;
         }
 
         else
         {
-            winLose.enabled = false;
+            winLose.text = "";
             restart.enabled = false;
+            restart.gameObject.GetComponent<Button>().enabled = false;
         }
 
         if (disastersEnabled)
