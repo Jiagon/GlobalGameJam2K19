@@ -9,8 +9,9 @@ public class CameraGame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        offset = transform.position - target.transform.position;
-	}
+        offset = new Vector3(0f, 5.215f, -7.448f); //transform.position - target.transform.position
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
