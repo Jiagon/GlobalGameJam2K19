@@ -121,8 +121,8 @@ public class Player : MonoBehaviour {
                 GameObject treeParent = GameObject.Instantiate(parentPrefab, transform.position, Quaternion.identity);
                 treeParent.GetComponent<TreePlayerDetection>().player = gameObject;
 
-                GameObject tree = GameObject.Instantiate(treePrefab, transform.position, Quaternion.identity);
-                tree.GetComponent<TreeScript>().player = gameObject;
+                //GameObject tree = GameObject.Instantiate(treePrefab, transform.position, Quaternion.identity);
+                //tree.GetComponent<TreeScript>().player = gameObject;
 
                 seedCount--;
                 seedText.text = "Seeds: " + seedCount;
